@@ -1,0 +1,18 @@
+-Required user inputs:
+	*Basic Salary (B)
+	*Allowance (A)
+	*Gross salary = (B) + (A)
+	*NSSF/PPF = 10% * B
+	*Taxable Amount = GROSS - (NSSF/PSSF)
+	*PAYE - (Conditions understands)
+	*is_heslb *
+	*Staff_welfare 
+	*Net Pay
+
+
+
+Step 1: Calculate Net Payment (from above input)
+
+Next > proceed 
+
+choose (Personal / Collateral): show form selected ? Personal
