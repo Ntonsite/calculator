@@ -6,7 +6,6 @@ class Welcome extends CI_Controller {
 	public function __construct() 
 	{
 	    parent:: __construct();
-	    $this->load->library('excel');
 	}
 
 	public function index()
@@ -49,24 +48,10 @@ class Welcome extends CI_Controller {
 		$maximum_installment = 0.4 * $net;
 		$interest = 0.012;
 
-		//call a method to calculate Annuity
-		interestAndPrincipal($interest, 0, $maturity,$loan, 0, 0);
-		echo json_encode($data);
-	}
-	public function interestAndPrincipal($rate=0, $per=0, $nper=0, $pv=0, $fv=0, $type=0)
-	{
-		$pmt = self::PMT($rate, $nper, $pv, $fv, $type);
-		$capital = $pv;
-		for ($i = 1; $i<= $per; ++$i) {
-			$interest = ($type && $i == 1) ? 0 : -$capital * $rate;
-			$principal = $pmt - $interest;
-			$capital += $principal;
-		}
+		$amount = $interest * -$loan * pow((1 + $interest), $maturity) / (1 - pow((1 + $interest), $maturity));
 
-		$data = [
-			$interest=>$principal
-		];
-		return $data;
+		$data ['amount'] = round($amount,2);
+		echo json_encode($data);
 	}
 
 	public function process(){

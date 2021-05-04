@@ -174,7 +174,7 @@
             $('#pcalculator').hide();
             $('#result').fadeIn();
             $("#result").append(
-              '<div class="alert alert-success">' + data.message + "</div>"
+              '<div class="alert alert-success">' + data.amount + "</div>"
             );
         } 
     });
