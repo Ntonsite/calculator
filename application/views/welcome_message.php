@@ -4,7 +4,7 @@
     <img src="<?php echo base_url('assets/img/logo.png');?>"><br><br>
     <div class="row">
       <div class="col-md-2">
-        <a class="btn btn-default" href="/calculator/">Home</a>
+        <a id="home" class="btn btn-default" href="#">Home</a>
       </div>
       <div class="col-md-3">
        <a class="btn btn-default" id="personalNav" href="#">Staff Personal Loan</a>
@@ -77,6 +77,9 @@
           <div class="form-group col-md-6">
             <input id="loan" class="form-control form-control-sm" type="number" name="loan" placeholder="Enter Loan Amount">
           </div>
+          <div class="form-group col-md-3">
+            <input id="maturity" class="form-control form-control-sm" type="number" name="maturity" placeholder="Maturity in [Months]">
+          </div>
           <button id="submit" type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
@@ -114,6 +117,12 @@
         } else {
             $('input[name="allowance"]').hide();
         }
+    });
+
+    $('#home').on('click',function(){
+      $('#net').fadeIn();
+      $('#colla').hide();
+      $('#personal').hide();
     });
 
     $('#personalNav').on('click',function(){
