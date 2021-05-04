@@ -1,7 +1,7 @@
 <body>
 <div class="container">
   <div class="row">
-    <img src="<?php echo base_url('assets/img/logo.png');?>">
+    <img src="<?php echo base_url('assets/img/logo.png');?>"><br><br>
     <div class="row">
       <div class="col-md-2">
         <a class="btn btn-default" href="/calculator/">Home</a>
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="panel panel-body">
-      <div class="row" id="net">
+      <div class="container row" id="net">
          <form id="calculator" autocomplete="off">
            <h1 class="lead">Calculate Net Salary Amount:</h1>
            <div class="form-group col-md-6">
@@ -40,7 +40,7 @@
            </div>
            <button id="submit" type="submit" class="btn btn-primary">Submit</button>
          </form>
-        <div class="row">
+        <div class="container row">
           <div class="col-md-3">
             <p id="resultTitle"><strong>Net Payment Salary Amount:</strong></p>
             <input readonly="" id="result1" class="form-control form-control-sm" type="text" name="" value=""><br>
@@ -49,11 +49,36 @@
         </div>
       </div>
       <!-- End NetPayment Calculator Form -->
-      <div class="row" id="personal">
-        <p>Personal what what</p>
+      <div class="container row" id="personal">
+        <form id="pcalculator" autocomplete="off">
+          <h1 class="lead">Generate Loan Annuity:-</h1>
+          <div class="form-group col-md-6">
+            <input id="netSalary" class="form-control form-control-sm" type="number" name="net" placeholder="Enter Net Salary Amount">
+          </div>
+          <div class="form-group col-md-6">
+            <input id="loan" class="form-control form-control-sm" type="number" name="loan" placeholder="Enter Loan Amount">
+          </div>
+          <div class="form-group col-md-3">
+            <input id="maturity" class="form-control form-control-sm" type="number" name="maturity" placeholder="Maturity in [Months]">
+          </div>
+          <button id="submitp" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="container row">
+          <div class="col-md-3" id="result">
+          </div>
+        </div>
       </div>
-      <div class="row" id="colla">
-        <p>Colateral</p>
+      <div class="container row" id="colla">
+        <form id="cocalculator" autocomplete="off">
+          <h1 class="lead">Generate Collateral Loan Annuity:-</h1>
+          <div class="form-group col-md-6">
+            <input id="net" class="form-control form-control-sm" type="number" name="net" placeholder="Enter Net Salary Amount">
+          </div>
+          <div class="form-group col-md-6">
+            <input id="loan" class="form-control form-control-sm" type="number" name="loan" placeholder="Enter Loan Amount">
+          </div>
+          <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+        </form>
       </div>
     </div>
     <div class="panel panel-footer">
@@ -80,6 +105,7 @@
     $('#colla').hide();
     $('#copy').hide();
     $('#resultTitle').hide();
+    $('#result').hide();
     $('#heslbAmount').hide();
 
     $('#allowance').on('click', function () {
@@ -109,6 +135,48 @@
         }else{
           $('#heslbAmount').hide();
         }
+    });
+  });
+</script>
+<script type="text/javascript">
+  $('#submitp').click(function(e){
+    e.preventDefault();
+
+    var net = $('#netSalary').val();
+    var loan = $('#loan').val();
+    var maturity = $('#maturity').val();
+
+    console.log(net);
+
+    console.log(loan);
+
+    $.ajax({
+        url: "<?php echo base_url();?>welcome/generate",
+        method: "POST",
+        dataType: "JSON",
+        data: {net:net,loan:loan,maturity:maturity},
+        encode: true,
+    }).done(function(data){
+        if (!data.success) {
+          if (data.errors.net) {
+            $("#net").addClass("has-error");
+            $("#net").append(
+              '<div class="help-block">' + data.errors.net + "</div>"
+            );
+          }
+          if (data.errors.loan) {
+            $("#loan").addClass("has-error");
+            $("#loan").append(
+              '<div class="help-block">' + data.errors.loan + "</div>"
+            );
+          }
+        }else{
+            $('#pcalculator').hide();
+            $('#result').fadeIn();
+            $("#result").append(
+              '<div class="alert alert-success">' + data.message + "</div>"
+            );
+        } 
     });
   });
 </script>
@@ -153,7 +221,9 @@
             '<div class="help-block">' + data.errors.amount + "</div>"
           );
         }
-      } else {
+      } 
+      else {
+        $('#calculator').hide();
         $('#resultTitle').fadeIn();
         $('#result1').fadeIn();
         $('#copy').fadeIn();
