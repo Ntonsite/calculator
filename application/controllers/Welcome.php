@@ -27,10 +27,7 @@ class Welcome extends CI_Controller {
 		if(empty($bsalary)){
 			$errors['bsalary'] = 'Basic Salary is Required';
 		}
-		if($amount == 'true' && empty($amount)){
-			$errors['amount'] = 'Allowance Amount is Required';
-		}
-
+		
 		if (!empty($errors)) {
 		    $data['success'] = false;
 		    $data['errors'] = $errors;
@@ -39,6 +36,47 @@ class Welcome extends CI_Controller {
 		    $data['message'] = 'Success!';
 		}
 
+		if($amount == 'false')
+		{
+			$amount = 0;
+		}
+
+		if($heslb == 'false')
+		{
+			$heslb = 0;
+		}
+		$gross = $bsalary + $amount;
+		$mfuko = 0.1* $bsalary;
+
+		$taxable = $gross - $mfuko;
+
+		$staff   = 3000;
+
+		switch($taxable){
+			case $taxable > 1000000:
+			$value = (($taxable - 1000000)*0.3+130500);
+			$result = $gross - $mfuko - $value - $heslb - $staff;
+			$data['result'] = $result;
+			break;
+
+			case $taxable > 760000:
+			$value = (($taxable - 760000)*0.25+70500);
+			$result = $gross - $mfuko - $value - $heslb - $staff;
+			$data['result'] = $result;
+			break;
+
+			case $taxable > 520000:
+			$value = (($taxable - 520000)*0.2+22500);
+			$result = $gross - $mfuko - $value - $heslb - $staff;
+			$data['result'] = $result;
+			break;
+
+			case $taxable > 270000:
+			$value = (($taxable - 270000)*0.9);
+			$result = $gross - $mfuko - $value - $heslb - $staff;
+			$data['result'] =  $result;
+			break; 
+		}
 		echo json_encode($data);
 	}
 }
