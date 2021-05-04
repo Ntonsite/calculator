@@ -8,14 +8,14 @@
           <input id="bsalary" class="form-control form-control-sm" type="number" name="bsalary" placeholder="Basic Salary Amount">
         </div>
         <div class="form-check col-md-1">
-          <input id="heslb" class="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
-          <label class="form-check-label" for="flexRadioDefault1">
+          <input id="heslb" class="form-check-input" type="checkbox">
+          <label class="form-check-label" for="heslb">
             Heslb
           </label>
         </div>
         <div class="form-check col-md-1 mt-1">
-          <input id="allowance" class="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault2">
-          <label class="form-check-label" for="flexRadioDefault2">
+          <input id="allowance" class="form-check-input" type="checkbox">
+          <label class="form-check-label" for="allowance">
             Allowance
           </label>
         </div>
@@ -36,34 +36,69 @@
   </div>
 </div>
 <script type="text/javascript">
-    $(function () {
-        $('input[name="allowance"]').hide();
-        $('#result1').hide();
-        $('#allowance').on('click', function () {
-            if ($(this).prop('checked')) {
-                $('input[name="allowance"]').fadeIn();
-            } else {
-                $('input[name="allowance"]').hide();
-            }
-        });
+  $(document).ready(function(){
+    $('input[name="allowance"]').hide();
+    $('#result1').hide();
+    $('#allowance').on('click', function () {
+        if ($(this).prop('checked')) {
+            $('input[name="allowance"]').fadeIn();
+        } else {
+            $('input[name="allowance"]').hide();
+        }
+    });
+  });
+</script>
+<script type="text/javascript">
+  $('#submit').click(function(e){
+      e.preventDefault();
 
-        $(document).ready(function(){
+      var bsalary = $('#bsalary').val();
+     console.log(bsalary);
 
-          $('#submit').click(function(e){
-            e.preventDefault();
 
-            var bsalary = $('#bsalary').val();
+     if($("#allowance").is(':checked')){
+       var amount  = $('#allowanceAmount').val();
+      }
+      else{
+        var amount = "false";
+      }
+     if($("#heslb").is(':checked')){
+       var heslb  = "true";
+     }else{
+       var heslb = "false";
+     }
+     $.ajax({
+       url: "<?php echo base_url();?>welcome/process",
+       method: "POST",
+       dataType: "JSON",
+       data: {bsalary:bsalary,amount:amount,heslb:heslb},
+       encode: true,
+     }).done(function (data) {
+      console.log(data);
 
-            if($("#allowance").is(':checked')){
-              var amount  = $('#allowanceAmount').val();
-            }
-            if($("#heslb").is(':checked')){
-              var heslb  = "true";
-            }
-          });
+      if (!data.success) {
+        if (data.errors.bsalary) {
+          $("#bsalary").addClass("has-error");
+          $("#bsalary").append(
+            '<div class="help-block">' + data.errors.bsalary + "</div>"
+          );
+        }
+        if (data.errors.amount) {
+          $("#allowanceAmount").addClass("has-error");
+          $("#allowanceAmount").append(
+            '<div class="help-block">' + data.errors.amount + "</div>"
+          );
+        }
+      } else {
+        $('#result1').fadeIn();
+        $("#result1").html(
+          '<div class="col-md-3 alert alert-success">' + data.message + "</div>"
+        );
+      }
 
-        });
-      });
+    });
+
+  });
 </script>
 </body>
 </html>
