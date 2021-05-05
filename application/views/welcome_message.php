@@ -17,11 +17,11 @@
       <div class="container row" id="net">
          <form id="calculator" autocomplete="off">
            <h1 class="lead">Calculate Net Salary Amount:</h1>
-           <div class="form-group col-md-6">
+           <div class="form-group col-md-3">
              <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
               maxlength="10" id="bsalary" class="form-control form-control-sm" type="number" name="bsalary" placeholder="Basic Salary Amount">
            </div>
-           <div class="form-check col-md-1 mt-1">
+           <div class="form-check col-md-1">
              <input id="allowance" class="form-check-input" type="checkbox">
              <label class="form-check-label" for="allowance">
                Allowance
@@ -33,6 +33,12 @@
                Heslb
              </label>
            </div>
+           <div class="form-check col-md-1">
+             <input id="tuico" class="form-check-input" type="checkbox">
+             <label class="form-check-label" for="tuico">
+               TUICO / FIBUKA
+             </label>
+           </div>
            <div class="form-group col-md-3">
              <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
               maxlength="11"  id="allowanceAmount" class="form-control form-control-sm" type="number" name="allowance" placeholder="Allowance Amount">
@@ -40,6 +46,10 @@
            <div class="form-group col-md-3">
              <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
               maxlength="11" placeholder="Heslb Amount" id="heslbAmount" type="number" class="form-control form-control-sm" name="heslb">
+           </div>
+           <div class="form-group col-md-3">
+             <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+              maxlength="11" placeholder="TUICO/FIBUKA" id="tuicoamount" type="number" class="form-control form-control-sm" name="tuico">
            </div>
            <button id="submit" type="submit" class="btn btn-primary">Submit</button>
          </form>
@@ -49,7 +59,10 @@
             <input readonly="" id="result1" class="form-control form-control-sm" type="text" name="" value=""><br>
             <button class="btn btn-success" id="copy" onclick="myFunction()">Copy Amount</button>
           </div>
-        </div>
+        </div><br>
+        <div class="col-md-3 mt-5">
+            <a href="/calculator/" class="btn btn-danger"><i class="fas fa-sync-alt"></i>Refresh</a>
+          </div>
       </div>
       <!-- End NetPayment Calculator Form -->
       <div class="container row" id="personal">
@@ -148,12 +161,21 @@
     $('#resultTitle').hide();
     $('#result').hide();
     $('#heslbAmount').hide();
+    $('#tuicoamount').hide();
 
     $('#allowance').on('click', function () {
         if ($(this).prop('checked')) {
             $('input[name="allowance"]').fadeIn();
         } else {
             $('input[name="allowance"]').hide();
+        }
+    });
+
+    $('#tuico').on('click', function () {
+        if ($(this).prop('checked')) {
+            $('#tuicoamount').fadeIn();
+        } else {
+            $('#tuicoamount').hide();
         }
     });
 
@@ -283,6 +305,13 @@
       else{
         var amount = "false";
       }
+
+      if($("#tuico").is(':checked')){
+        var tuico  = $('#tuicoamount').val();
+       }
+       else{
+         var tuico = "false";
+       }
      if($("#heslb").is(':checked')){
        var heslb  = $('#heslbAmount').val();
      }else{
@@ -292,7 +321,7 @@
        url: "<?php echo base_url();?>welcome/process",
        method: "POST",
        dataType: "JSON",
-       data: {bsalary:bsalary,amount:amount,heslb:heslb},
+       data: {bsalary:bsalary,amount:amount,tuico:tuico,heslb:heslb},
        encode: true,
      }).done(function (data) {
       console.log(data);
@@ -312,6 +341,7 @@
         }
       } 
       else {
+
         $('#calculator').hide();
         $('#resultTitle').fadeIn();
         $('#result1').fadeIn();

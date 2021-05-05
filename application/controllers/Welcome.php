@@ -113,6 +113,7 @@ class Welcome extends CI_Controller {
 		$bsalary = $this->input->post('bsalary');
 		$amount  = $this->input->post('amount');
 		$heslb   = $this->input->post('heslb');
+		$tuico   = $this->input->post('tuico');
 
 		$errors = [];
 		$data   = [];
@@ -134,6 +135,10 @@ class Welcome extends CI_Controller {
 			$amount = 0;
 		}
 
+		if($tuico=='false'){
+			$tuico = 0;
+		}
+
 		if($heslb == 'false')
 		{
 			$heslb = 0;
@@ -153,28 +158,28 @@ class Welcome extends CI_Controller {
 		switch($taxable){
 			case $taxable > 1000000:
 			$value = (($taxable - 1000000)*0.3+130500);
-			$result = $gross - $mfuko - $value - $heslb - $staff;
+			$result = $gross - $mfuko - $value - $heslb - $tuico - $staff;
 			$data['result'] = $result;
 			break;
 
 			case $taxable > 760000:
 			$value = (($taxable - 760000)*0.25+70500);
-			$result = $gross - $mfuko - $value - $heslb - $staff;
+			$result = $gross - $mfuko - $value - $heslb - $tuico - $staff;
 			$data['result'] = $result;
 			break;
 
 			case $taxable > 520000:
 			$value = (($taxable - 520000)*0.2+22500);
-			$result = $gross - $mfuko - $value - $heslb - $staff;
+			$result = $gross - $mfuko - $value - $heslb - $tuico - $staff;
 			$data['result'] = $result;
 			break;
 
 			case $taxable > 270000:
 			$value = (($taxable - 270000)*0.9);
-			$result = $gross - $mfuko - $value - $heslb - $staff;
+			$result = $gross - $mfuko - $value - $heslb - $tuico - $staff;
 			$data['result'] =  $result;
 			break; 
 		}
-		echo json_encode($data);
+		echo json_encode($data);		
 	}
 }
