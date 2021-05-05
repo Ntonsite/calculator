@@ -18,7 +18,8 @@
          <form id="calculator" autocomplete="off">
            <h1 class="lead">Calculate Net Salary Amount:</h1>
            <div class="form-group col-md-6">
-             <input id="bsalary" class="form-control form-control-sm" type="number" name="bsalary" placeholder="Basic Salary Amount">
+             <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+              maxlength="10" id="bsalary" class="form-control form-control-sm" type="number" name="bsalary" placeholder="Basic Salary Amount">
            </div>
            <div class="form-check col-md-1 mt-1">
              <input id="allowance" class="form-check-input" type="checkbox">
@@ -33,10 +34,12 @@
              </label>
            </div>
            <div class="form-group col-md-3">
-             <input  id="allowanceAmount" class="form-control form-control-sm" type="number" name="allowance" placeholder="Allowance Amount">
+             <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+              maxlength="11"  id="allowanceAmount" class="form-control form-control-sm" type="number" name="allowance" placeholder="Allowance Amount">
            </div>
            <div class="form-group col-md-3">
-             <input placeholder="Heslb Amount" id="heslbAmount" type="number" class="form-control form-control-sm" name="heslb">
+             <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+              maxlength="11" placeholder="Heslb Amount" id="heslbAmount" type="number" class="form-control form-control-sm" name="heslb">
            </div>
            <button id="submit" type="submit" class="btn btn-primary">Submit</button>
          </form>
@@ -53,18 +56,31 @@
         <form id="pcalculator" autocomplete="off">
           <h1 class="lead">Generate Loan Annuity:-</h1>
           <div class="form-group col-md-6">
-            <input id="netSalary" class="form-control form-control-sm" type="number" name="net" placeholder="Enter Net Salary Amount">
+            <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+             maxlength="11" id="netSalary" class="form-control form-control-sm" type="number" name="net" placeholder="Enter Net Salary Amount">
           </div>
           <div class="form-group col-md-6">
-            <input id="loan" class="form-control form-control-sm" type="number" name="loan" placeholder="Enter Loan Amount">
+            <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+             maxlength="11" id="loan" class="form-control form-control-sm" type="number" name="loan" placeholder="Enter Loan Amount">
           </div>
           <div class="form-group col-md-3">
-            <input id="maturity" class="form-control form-control-sm" type="number" name="maturity" placeholder="Maturity in [Months]">
+            <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+            maxlength="2" id="maturity" class="form-control form-control-sm" type="number" name="maturity" placeholder="Maturity in [Months]">
           </div>
           <button id="submitp" type="submit" class="btn btn-primary">Submit</button>
         </form>
         <div class="container row">
-          <div class="col-md-3" id="result">
+          <div id="result" class="col-md-3">
+            <label>Maximum Loan Amount:</label>
+            <input class="form-control form-control-sm" id="maximumLoan" type="number" readonly="" name="" value="">
+          </div>
+          <div id="resultm" class="col-md-3">
+            <label>Maximum 40% of Net Pay:</label>
+            <input class="form-control form-control-sm" id="maximumInstall" type="number" readonly="" name="" value="">
+          </div>
+          <div id="resulta" class="col-md-3">
+            <label>Annuity:</label>
+            <input class="form-control form-control-sm" id="annuity" type="number" readonly="" name="" value="">
           </div>
         </div>
       </div>
@@ -72,16 +88,33 @@
         <form id="cocalculator" autocomplete="off">
           <h1 class="lead">Generate Collateral Loan Annuity:-</h1>
           <div class="form-group col-md-6">
-            <input id="net" class="form-control form-control-sm" type="number" name="net" placeholder="Enter Net Salary Amount">
+            <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+             maxlength="11" id="netco" class="form-control form-control-sm" type="number" name="netco" placeholder="Enter Net Salary Amount">
           </div>
           <div class="form-group col-md-6">
-            <input id="loan" class="form-control form-control-sm" type="number" name="loan" placeholder="Enter Loan Amount">
+            <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+            maxlength="11" id="loanco" class="form-control form-control-sm" type="number" name="loanco" placeholder="Enter Loan Amount">
           </div>
           <div class="form-group col-md-3">
-            <input id="maturity" class="form-control form-control-sm" type="number" name="maturity" placeholder="Maturity in [Months]">
+            <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+            maxlength="2" id="maturityco" class="form-control form-control-sm" type="number" name="maturityco" placeholder="Maturity in [Months]">
           </div>
-          <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+          <button id="submitco" type="submit" class="btn btn-primary">Submit</button>
         </form>
+        <div class="container row">
+          <div id="resultma" class="col-md-3">
+            <label>Maximum Loan Amount:</label>
+            <input  class="form-control form-control-sm" id="a" type="number" readonly="" name="" value="">
+          </div>
+          <div id="resultmx" class="col-md-3">
+            <label>Maximum 40% of Net Pay:</label>
+            <input class="form-control form-control-sm" id="b" type="number" readonly="" name="" value="">
+          </div>
+          <div id="resultann" class="col-md-3">
+            <label>Annuity:</label>
+            <input class="form-control form-control-sm" id="c" type="number" readonly="" name="" value="">
+          </div>
+        </div>
       </div>
     </div>
     <div class="panel panel-footer">
@@ -97,13 +130,18 @@
     copyText.select();
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy");
-    alert("Copied the Amount: " + copyText.value);
   }
 </script>
 <script type="text/javascript">
   $(document).ready(function(){
     $('input[name="allowance"]').hide();
     $('#result1').hide();
+    $('#resultm').hide();
+    $('#resultma').hide();
+    $('#resultmx').hide();
+    $('#resultann').hide();
+    $('#resulta').hide();
+    $('#result').hide();
     $('#personal').hide();
     $('#colla').hide();
     $('#copy').hide();
@@ -148,6 +186,46 @@
   });
 </script>
 <script type="text/javascript">
+  $('#submitco').click(function(e){
+    e.preventDefault();
+
+    var net = $('#netco').val();
+    var loan = $('#loanco').val();
+    var maturity = $('#maturityco').val();
+
+    console.log(net);
+
+    console.log(loan);
+
+    console.log(maturity);
+
+    $.ajax({
+        url: "<?php echo base_url();?>welcome/collateral",
+        method: "POST",
+        dataType: "JSON",
+        data: {net:net,loan:loan, maturity:maturity},
+        encode: true,
+    }).done(function(data){
+      if(data.success){
+        $('#cocalculator').hide();
+        $('#resultma').fadeIn();
+        $('#resultmx').fadeIn();
+        $('#resultann').fadeIn();
+
+        document.getElementById('a').value = data.maximumLoan;
+        document.getElementById('b').value = data.maximumInstall;
+        document.getElementById('c').value = data.annuity;
+      }else{
+        $('#cocalculator').hide();
+        $('#resultma').fadeIn();
+        $('#resultma').append(
+          '<div class="alert alert-danger">'+data.message+"</div>"
+        );
+      }
+    });
+  });
+</script>
+<script type="text/javascript">
   $('#submitp').click(function(e){
     e.preventDefault();
 
@@ -182,9 +260,11 @@
         }else{
             $('#pcalculator').hide();
             $('#result').fadeIn();
-            $("#result").append(
-              '<div class="alert alert-success">' + data.amount + "</div>"
-            );
+            $('#resulta').fadeIn();
+            $('#resultm').fadeIn();
+            document.getElementById('maximumLoan').value = data.maximumLoan;
+            document.getElementById('maximumInstall').value = data.maximumInstall;
+            document.getElementById('annuity').value = data.annuity;
         } 
     });
   });

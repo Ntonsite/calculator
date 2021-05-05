@@ -16,6 +16,52 @@ class Welcome extends CI_Controller {
 		$this->load->view('includes/footer',$data);
 	}
 
+	public function collateral(){
+		header('Access-Control-Allow-Origin: *');
+		header("Access-Control-Allow-Methods: GET, OPTIONS");
+		if ( "OPTIONS" === $_SERVER['REQUEST_METHOD'] ) {
+			die();
+		}
+
+		$netco      = $this->input->post('net');
+		$loanco     = $this->input->post('loan');
+		$maturityco = $this->input->post('maturity');
+
+		$errors = [];
+		$data   = [];
+
+		if(empty($netco)){
+			$errors['netco'] = 'Net Salary is required';
+		}
+		if(empty($loanco)){
+			$errors['loanco'] = 'Loan Amount is required';
+		}
+		if(empty($maturityco)){
+			$errors['maturityco'] = 'Matuity is required';
+		}
+		if (!empty($errors)) {
+		    $data['success'] = false;
+		    $data['errors'] = $errors;
+		} else {
+		    $data['success'] = true;
+		    $data['message'] = 'Success!';
+		}
+
+		$maximum_loan = 6* $netco;
+		$data['maximumLoan'] = $maximum_loan;
+
+		$maximum_installment = 0.4 * $netco;
+		$data['maximumInstall'] = $maximum_installment;
+
+		$interest = 0.01;
+
+		$amount = $interest * -$loanco * pow((1 + $interest), $maturityco) / (1 - pow((1 + $interest), $maturityco));
+
+		$data ['annuity'] = round($amount,2);
+
+		echo json_encode($data);
+	}
+
 	public function generate(){
 		header('Access-Control-Allow-Origin: *');
 		header("Access-Control-Allow-Methods: GET, OPTIONS");
@@ -45,12 +91,16 @@ class Welcome extends CI_Controller {
 		}
 
 		$maximum_loan = 6* $net;
+		$data['maximumLoan'] = $maximum_loan;
+
 		$maximum_installment = 0.4 * $net;
+		$data['maximumInstall'] = $maximum_installment;
+
 		$interest = 0.012;
 
 		$amount = $interest * -$loan * pow((1 + $interest), $maturity) / (1 - pow((1 + $interest), $maturity));
 
-		$data ['amount'] = round($amount,2);
+		$data ['annuity'] = round($amount,2);
 		echo json_encode($data);
 	}
 
@@ -89,9 +139,14 @@ class Welcome extends CI_Controller {
 			$heslb = 0;
 		}
 		$gross = $bsalary + $amount;
-		$mfuko = 0.1* $bsalary;
+
+		$data['gross'] = $gross;
+
+		$mfuko = 0.1 * $bsalary;
+		$data['mfuko'] = $mfuko;
 
 		$taxable = $gross - $mfuko;
+		$data['taxable'] = $taxable;
 
 		$staff   = 3000;
 
