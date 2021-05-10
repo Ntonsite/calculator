@@ -6,14 +6,16 @@ class Welcome extends CI_Controller {
 	public function __construct() 
 	{
 	    parent:: __construct();
+	    
+	    $data['title'] = 'Loan | Calculator'; 
+	    $this->load->view('includes/header', $data);
+	    $this->load->view('includes/footer',$data);
 	}
 
 	public function index()
 	{
-		$data['title'] = 'Loan | Calculator'; 
-		$this->load->view('includes/header', $data);
+		
 		$this->load->view('welcome_message');
-		$this->load->view('includes/footer',$data);
 	}
 
 	public function collateral(){
